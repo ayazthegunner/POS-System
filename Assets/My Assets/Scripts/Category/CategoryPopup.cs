@@ -45,6 +45,8 @@ public class CategoryPopup : MonoBehaviour
 
     public void SaveCategory ()
     {
+        UpdateInfo();
+
         if (currentCategory.name == "")
         {
             Debug.LogError ("Category Name is empty");
@@ -66,9 +68,6 @@ public class CategoryPopup : MonoBehaviour
             ReferencesManager._instance.categoriesManager.DeleteCategory (currentCategory);
         }
     }
-
-    #region UpdateInformation
-
     public void UpdateInfo ()
     {
         currentCategory.name = categoryNameInputField.text;
@@ -78,6 +77,4 @@ public class CategoryPopup : MonoBehaviour
             currentCategory.img = categoryImage;
 
     }
-
-    #endregion
 }

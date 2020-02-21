@@ -26,18 +26,24 @@ public class CategoriesManager : MonoBehaviour
         // DeleteAllCategoriesGeneratedElements();
         for (int i = 0; i < availableCategories.Count; i++)
         {
-
             CategoryElement newCategoryElement = Instantiate (categoryElement.gameObject, categoryGrid.transform).GetComponent<CategoryElement> ();
-            categoryElement.PopulateData (availableCategories[i]);
+            newCategoryElement.PopulateData (availableCategories[i]);
         }
     }
 
     public void SaveCategory (Category newCat)
     {
+        // if(availableCategories.Contains(newCat))
+        // {
+        //     Debug.Log("is in the list");
+        // }
+
         bool categoryFound = false;
         for (int i = 0; i < availableCategories.Count; i++)
         {
-            if (availableCategories[i].name == newCat.name)
+            // if (availableCategories[i].name == newCat.name)
+            // {
+            if (availableCategories[i].isSelected)
             {
                 Debug.Log ("Category available");
                 availableCategories[i] = newCat;
@@ -53,23 +59,16 @@ public class CategoriesManager : MonoBehaviour
         if (!categoryFound)
         {
             Debug.Log ("Category not available");
-            AddNewCategory (newCat);
             AddIndividualCategory (newCat);
 
             categoryPopup.gameObject.SetActive (false);
         }
-
-    }
-
-    void AddNewCategory (Category newCat)
-    {
-        availableCategories.Add (newCat);
     }
 
     void AddIndividualCategory (Category newCat)
     {
         CategoryElement newCategoryElement = Instantiate (categoryElement.gameObject, categoryGrid.transform).GetComponent<CategoryElement> ();
-        categoryElement.PopulateData (newCat);
+        newCategoryElement.PopulateData (newCat);
         availableCategories.Add (newCat);
         categoryElementsGenerated.Add (newCategoryElement);
     }
@@ -83,7 +82,10 @@ public class CategoriesManager : MonoBehaviour
     {
         for (int i = 0; i < availableCategories.Count; i++)
         {
-            if (availableCategories[i].name == categoryToDelete.name)
+            // if (availableCategories[i].name == categoryToDelete.name)
+            // {
+
+            if (availableCategories[i].isSelected)
             {
                 Debug.Log ("Category exists: Deleting");
 
@@ -102,6 +104,15 @@ public class CategoriesManager : MonoBehaviour
 
     public void ShowCategoryInformation (Category newCat)
     {
+        for (int i = 0; i < availableCategories.Count; i++)
+        {
+            if (availableCategories[i].name == newCat.name)
+            {
+                Debug.Log ("Available");
+                availableCategories[i].isSelected = true;
+            }
+        }
+
         categoryPopup.PopulatePopup (newCat);
         categoryPopup.gameObject.SetActive (true);
     }
@@ -110,5 +121,17 @@ public class CategoriesManager : MonoBehaviour
     {
         categoryPopup.PopulatePopup (null);
         categoryPopup.gameObject.SetActive (true);
+    }
+
+    public void ResetSelectedState ()
+    {
+        for (int i = 0; i < availableCategories.Count; i++)
+        {
+            if (availableCategories[i].isSelected)
+            {
+                availableCategories[i].isSelected = false;
+                return;
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ public class ReferencesManager : MonoBehaviour
     public static ReferencesManager _instance;
 
     public CategoriesManager categoriesManager;
+    public ProductsManager productsManager;
 
     private void Awake ()
     {
